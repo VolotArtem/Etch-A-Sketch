@@ -1,22 +1,94 @@
-body{
-    display: flex;
-    justify-content: space-around;}
-.field{border:solid;
+* {
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    height: 100vh;
+
+    padding-top: 15px;
+    padding-bottom: 100px;
+}
+
+.main {
+    
+   
+}
+
+.field {
+    
+    border: solid;
     /* свойства для снятия выделения */
     -webkit-user-select: none;
-     /* user-select -- это нестандартное свойство */
+    /* user-select -- это нестандартное свойство */
     -moz-user-select: none;
-        /* поэтому нужны префиксы */
+    /* поэтому нужны префиксы */
     -ms-user-select: none;
-    /* свойства для снятия выделения */  
+    /* свойства для снятия выделения */
     display: grid;
     width: 500px;
     height: 500px;
-    grid-template-columns: repeat(22, 1fr); 
+    grid-template-columns: repeat(22, 1fr);
     grid-template-rows: repeat(22, 1fr);
+    margin: auto;
+
 }
+
+h1 {
+    text-align: center;
+    font-size: 60px;
+    margin: 20px;
+
+}
+
 .menu{
-    width: 300px;
-    height: 500px;
+    display: flex;
+    justify-content: center;
+    gap: 20px;
+   
+}
+
+button {
+    padding: 10px;
+    display: block;
+    text-align: center;
     
+    width: 150px;
+    margin-bottom: 20px;
+    border-radius: 10px;
+}
+
+input[type='color'] {
+    width: 40px;
+    height: 40px;
+    border: none;
+    background-color: white;
+}
+
+input[type='color']::-webkit-color-swatch-wrapper {
+    padding: 0px;
+}
+
+input[type="color"]::-webkit-color-swatch {
+    border: none;
+    border-radius: 50px;
+
+}
+
+input[type="color"]:hover {
+    transform: scale(1.2);
+}
+.colorChoose {
+    cursor: default;
+    margin: auto;
+    margin-top: 20px;
+    margin-bottom: 20px;
+    width: 200px;
+    justify-content: space-around;
+    align-items: center;
+    display: flex;
+}
+.colorChoose>p{
+font-size: 22px;
+font-weight: 525;
 }
