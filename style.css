@@ -52,10 +52,15 @@ button {
     padding: 10px;
     display: block;
     text-align: center;
-    
+    font-weight: 550;
     width: 150px;
     margin-bottom: 20px;
     border-radius: 10px;
+}
+
+button:hover{
+    scale: 1.2;
+    background-color: hsl(0, 100%, 70%); ;
 }
 
 input[type='color'] {
@@ -91,4 +96,48 @@ input[type="color"]:hover {
 .colorChoose>p{
 font-size: 22px;
 font-weight: 525;
+}
+.slidecontainer{
+    text-align: center;
+    margin: 10px;
+    width: 100%;
+}
+
+.slider {
+    -webkit-appearance: none; 
+    appearance: none;
+    width: 200px;
+    height:10px; /* Specified height */
+    background: #c03939; /* Grey background */
+    outline: none; /* Remove outline */
+    
+    -webkit-transition: .2s; 
+    
+    border-radius: 20px;
+}
+/* Mouse-over effects */
+.slider:hover {
+    opacity: 0.9; /* Fully shown on mouse-over */
+}
+.slider::-webkit-slider-thumb:hover{
+    background: rgb(41, 11, 97); 
+}
+.slider::-webkit-slider-thumb {
+    -webkit-appearance: none; /* Override default look */
+    appearance: none;
+    width: 20px; /* Set a specific slider handle width */
+    height: 20px; /* Slider handle height */
+    border-radius: 25px;
+    background: rgb(10, 95, 134); 
+    cursor: pointer; /* Cursor on hover */
+}
+.slider::-moz-range-thumb {
+    width: 20px; /* Set a specific slider handle width */
+    height: 20px; /* Slider handle height */
+    background: rgb(10, 95, 134); 
+    cursor: pointer; /* Cursor on hover */
+}
+.slide-text{
+    text-align: center;
+    font-size: 18px;
 }
