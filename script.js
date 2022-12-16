@@ -3,70 +3,136 @@ const field = document.querySelector(".field")
 const inputColor = document.querySelector(".color")
 const colorMode = document.querySelector(".color-mode")
 const squareUser = document.querySelector(".square")
+const rainbowMode = document.querySelector(".raindow-mode")
+const menuButtons = document.querySelectorAll("#switch")
+const erase = document.querySelector(".erase")
+const clear = document.querySelector(".clear")
+let mode;
 let oneBlock = 10; //test name for generate field
-const getFullField = (oneBlock) => { return square = oneBlock * oneBlock }//funct for calculate square field 
+let color = inputColor.value;
+var slider = document.getElementById("myRange");
+var output = document.getElementById("slide-text");
+output.innerHTML = `${slider.value} X ${slider.value}`; // Display the default slider value
+
+// Update the current slider value (each time you drag the slider handle)
+slider.oninput = function () {
+    output.innerHTML = `${slider.value} X ${slider.value}`;
+    clearFullField(); //вызов отчистки листа
+    paintFullField(getFullField(slider)) // вызов отрисовки листа 
+}
+const getFullField = (slider) => { return square = slider.value * slider.value }//funct for calculate square field 
 //funct for add div in field grid РАЗДЕЛИ НА ДВЕ ФУНКЦИИ так как тут еще смена стиля для основного поля грид
 const paintFullField = (getFullField) => {
-    field.style.gridTemplateColumns = `repeat(${oneBlock}, 1fr)`
-    field.style.gridTemplateRows = `repeat(${oneBlock}, 1fr)`
+    field.style.gridTemplateColumns = `repeat(${slider.value}, 1fr)`
+    field.style.gridTemplateRows = `repeat(${slider.value}, 1fr)`
     for (let i = 0; i < getFullField; i++) {
         let block = document.createElement("div");
         block.classList.add("element-field")
         field.append(block)
 
     }
+    getBlockField() // получаю все элементы на поле
+    addElementFieldListener() // вызов фукнции для рисования кликом и передивижением мышки с удержанием
 }
-//-------------остановился тут рефреш листа
+//функция обновления (отчистки) листа
 const clearFullField = () => {
-    let block = document.querySelectorAll(".element-field")
+    while (field.firstChild) { //пока у поля есть первый дочерний элемент ,
+        field.removeChild(field.firstChild); // удалить на поле дочерний элемент - удалить первый дочерний элемент
+    }
+
 
 }
-//-------------остановился тут рефреш листа
-paintFullField(getFullField(oneBlock)); // отрисовка главного холста(поля)
-const getBlockField = document.querySelectorAll(".element-field")//получаю нод лист всех созданый элементов на поле
+window.onload = paintFullField(getFullField(slider));// отрисовка главного холста(поля)
+
+
+//функция получения нод листа всех созданый элементов на поле
+function getBlockField() {
+    return document.querySelectorAll(".element-field")
+
+}
+// function getColor() {
+
+// }
 //Функция покраски элемента(div block )
-const paint = (element) => {
-    console.log(element)
-    console.log(element.target)
-    return element.target.style.backgroundColor = inputColor.value
+// function paint(element) {
 
+//     selectColorMode();
+//     color = inputColor.value;
+//     return element.target.style.backgroundColor = color;
+
+// }
+function paint(element) {
+    if (mode == "color-mode" || mode == undefined) {
+        console.log(mode)
+        color = inputColor.value;
+        return element.target.style.backgroundColor = color;
+    } else if (mode == "raindow-mode") {
+        console.log(mode)
+        color = randomColor()
+        console.log(randomColor())
+        return element.target.style.backgroundColor = color;
+    } else if (mode == "erase") {
+
+
+
+        return element.target.style.backgroundColor = "";
+    }
 }
+function raindowPaint(element) {
+
+    color = randomColor()
+    console.log(randomColor())
+    return element.target.style.backgroundColor = color;
+}
+/*фукнция holdclick добавляет прослушиватель Движения мыши и  фызова фукции отрисовки*/
 function holdClick() {
-    getBlockField.forEach((element) => element.addEventListener("mousemove", paint)) /*фукнция holdclick добавляет прослушиватель Движения мыши и 
-    фызова фукции отрисовки*/
-    getBlockField.forEach((element) => element.addEventListener("click", paint))
+    getBlockField().forEach((element) => element.addEventListener("mouseenter", paint))
+    // getBlockField().forEach((element) => element.addEventListener("click", paint))
+    getBlockField().forEach((element) => element.addEventListener("mousedown", paint))
 }
 /*  фукнция stopPaint добавляет прослушиватель  Отжатого левого клика */
-const stopPaint = () => { getBlockField.forEach((element) => element.removeEventListener('mousemove', paint)) }
+function stopPaint() { getBlockField().forEach((element) => element.removeEventListener('mouseenter', paint)) }
+//функция рисования по клику и передвижению мышки
+function addElementFieldListener() {
+    body.addEventListener("mouseup", stopPaint)/*прослушиватель чтобы вне холста работали все мои прослушки, так удобней рисовать, иначе выйдя из
+    холста и отжав там кнопку , фукнция рисования прилипнет к мышке и придется кликать еще раз*/
+    body.addEventListener("mousedown", holdClick) // для выхода за холст с зажатой клавишей мыши и удобного возврата назад
+}
 
-body.addEventListener("mouseup", stopPaint)/*прослушиватель чтобы вне холста работали все мои прослушки, так удобней рисовать, иначе выйдя из
- холста и отжав там кнопку , фукнция рисования прилипнет к мышке и придется кликать еще раз*/
-body.addEventListener("mousedown", holdClick) // для выхода за холст с зажатой клавишей мыши и удобного возврата назад
 
-colorMode.addEventListener("click", paint)
+rainbowMode.addEventListener("click", function () {
+    mode = document.querySelector(".raindow-mode")
 
-squareUser.addEventListener("click", function () {
-    oneBlock = prompt("Vvedite")
-    clearFullField();
-    paintFullField(getFullField(oneBlock))
+    return mode = mode.className
+})
+colorMode.addEventListener("click", function () {
+    mode = document.querySelector(".color-mode")
+    return mode = mode.className
+})
+erase.addEventListener("click", function () {
+    mode = document.querySelector(".erase")
+    return mode = mode.className
 })
 
 
+// кнопка выбора поля пользователем, замени на ползунок
+// squareUser.addEventListener("click", function () {
+//     oneBlock = prompt("Vvedite") // получения масштаба листа от пользователя
+
+//     clearFullField(); //вызов отчистки листа
+//     paintFullField(getFullField(oneBlock)) // вызов отрисовки листа 
+
+// })
+function clearFieldButton() { getBlockField().forEach((element) => element.style.backgroundColor = "") }
+
+clear.addEventListener("click", clearFieldButton)
+function randomColor() {
+    let r = Math.floor(Math.random() * 255)
+    let g = Math.floor(Math.random() * 255)
+    let b = Math.floor(Math.random() * 255)
+    return color = `rgb(${r} ,${g}, ${b})`
 
 
+}
 
 
-
-
-
-// getBlockField.forEach((element) => element.addEventListener("mousedown", holdClick = () => {//при нажатом левом клике запускаю фукнцию holdclick
-
-//     getBlockField.forEach((element) => element.addEventListener("mousemove", paint)) /*фукнция holdclick добавляет прослушиватель Движения мыши и
-//     фызова фукции отрисовки*/
-//     getBlockField.forEach((element) => element.addEventListener("mouseup", stopPaint = () => { /* также фукнция holdclick добавляет прослушиватель
-//         Отжатого левого клика (НЕПРАВИЛЬНО ИЗМЕНИ ФУНКЦИЯ ДОЛЖНА ДЕЛАТЬ ЧТО_ТО ОДНО) ивызывает фукнцию stopPaint*/
-//         getBlockField.forEach((element) => element.removeEventListener('mousemove', paint)); /* удаляю прослушиватель Движения мыши с фукнцией отрисовки ,
-//         для каждого элемента нод листа (for Each)*/
-//     }))
-
-// }))
